@@ -1,0 +1,1 @@
+json-server --watch --host YOUR_LOCAL_IP_HERE db.json

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<h1>TEST PAGE FOR REST API</h1>
+
+<label for="IDGRAB">User ID</label>
+<input type="number" id="IDGRAB" autocomplete="off"></input>
+<button type="submit" onclick="grab()">Search</button>
+<p id="name"></p>
+<p id="age"></p>
+<br>
+<hr>
+<label for="NAMEPOST">Name</label>
+<input type="text" id="NAMEPOST" autocomplete="off"></input>
+<label for="AGEPOST">Age</label>
+<input type="number" id="AGEPOST" autocomplete="off"></input>
+<button type="submit" onclick="post()">Create User!</button>
+<p id="POSTCOMPLETE"></p>
+<br>
+<hr>
+<label for="IDPUT">User ID</label>
+<input type="number" id="IDPUT" autocomplete="off"></input>
+<label for="agePUT">New Age</label>
+<input type="number" id="agePUT" autocomplete="off"></input>
+<button type="submit" onclick="put()">Update User</button>
+<p id="UPDATED"></p>
+<br>
+<hr>
+<label for="IDDEL">User ID</label>
+<input type="number" id="IDDEL" autocomplete="off"></input>
+<button type="submit" onclick="del()">DELETE USER</button>
+
+<script>
+    async function grab() {
+  const resp = await fetch('http://YOUR_API_IP_GOES_HERE:3000/info/' + IDGRAB.value);
+  const json = await resp.json();
+  const name = json.name;
+  const age = json.age;
+  document.getElementById("age").innerHTML = age;
+  document.getElementById("name").innerHTML = name;
+}
+async function post() {
+  await fetch('http://YOUR_API_IP_GOES_HERE:3000/info/', {
+    method: "post",
+    body:JSON.stringify({
+      name: NAMEPOST.value,
+      age: AGEPOST.value
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8"
+    }
+  });
+  document.getElementById("POSTCOMPLETE").innerHTML = "Created User, Name:\"" + NAMEPOST.value + "\", Age:\"" + AGEPOST.value + "\"";
+}
+async function put() {
+  await fetch('http://YOUR_API_IP_GOES_HERE:3000/info/' + IDPUT.value, {
+    method: "PUT",
+    body:JSON.stringify({
+      age: agePUT.value
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8"
+    }
+  });
+  document.getElementById("UPDATED").innerHTML = "Updated User age, Age:\"" + agePUT.value + "\"";
+}
+async function del() {
+  await fetch('http://YOUR_API_IP_GOES_HERE:3000/info/' + IDDEL.value, {
+    method: "delete",
+  });
+}
+</script>
+</body>
+</html>
